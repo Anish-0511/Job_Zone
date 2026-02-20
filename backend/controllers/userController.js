@@ -44,16 +44,18 @@ export const login = catchAsyncErrors(async (req, res, next) => {
 });
 
 export const logout = catchAsyncErrors(async (req, res, next) => {
-  res
-    .status(201)
-    .cookie("token", "", {
-      httpOnly: true,
-      expires: new Date(Date.now()),
-    })
-    .json({
-      success: true,
-      message: "Logged Out Successfully.",
-    });
+ res
+  .status(200)
+  .cookie("token", "", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    expires: new Date(0),
+  })
+  .json({
+    success: true,
+    message: "Logged Out Successfully.",
+  });
 });
 
 // getuser krna pdega warna frontend me chize mushkil ho jayengi

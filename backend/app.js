@@ -12,13 +12,13 @@ import fileUpload from "express-fileupload";
 const app = express();
 config({ path: "./config/config.env" });
 
-app.use(
-  cors({
-    origin: [process.env.FRONTEND_URL], // frontend backend connect ho rha 
-    method: ["GET", "POST", "DELETE", "PUT"],
-    credentials: true,
-  })
-);
+import cors from "cors";
+
+app.use(cors({
+  origin: "https://job-zone-blond.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}));
 
 app.use(cookieParser());
 app.use(express.json());
