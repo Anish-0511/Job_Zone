@@ -7,22 +7,25 @@ const Jobs = () => {
   const [jobs, setJobs] = useState([]);
   const { isAuthorized } = useContext(Context);
   const navigateTo = useNavigate();
+
   useEffect(() => {
-    try {
-      axios
-        .get("http://localhost:4000/api/v1/job/getall", {
-          withCredentials: true,
-        })
-        .then((res) => {
-          setJobs(res.data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/api/v1/job/getall`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setJobs(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
-  if (!isAuthorized) {
-    navigateTo("/");
-  }
+
+  useEffect(() => {
+    if (!isAuthorized) {
+      navigateTo("/");
+    }
+  }, [isAuthorized]);
 
   return (
     <section className="jobs page">
