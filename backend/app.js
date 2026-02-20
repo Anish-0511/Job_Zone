@@ -12,7 +12,7 @@ import fileUpload from "express-fileupload";
 const app = express();
 config({ path: "./config/config.env" });
 
-import cors from "cors";
+
 
 app.use(cors({
   origin: "https://job-zone-blond.vercel.app",
