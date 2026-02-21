@@ -1,6 +1,13 @@
 import React, { createContext, useState } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
+import axios from "axios";
+
+// 🔥 AUTO ATTACH TOKEN ON PAGE LOAD / REFRESH
+const token = localStorage.getItem("token");
+if (token) {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+}
 
 export const Context = createContext({
   isAuthorized: false,

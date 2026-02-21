@@ -20,24 +20,26 @@ import MyJobs from "./components/Job/MyJobs";
 const App = () => {
   const { isAuthorized, setIsAuthorized, setUser } = useContext(Context);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/v1/user/getuser`,
-          { withCredentials: true }
-        );
+ useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      // 🔥 attach token on refresh
+      axios.defaults.headers.common["Authorization"] =
+        `Bearer ${localStorage.getItem("token")}`;
 
-        setUser(response.data.user);
-        setIsAuthorized(true);
-      } catch (error) {
-        setIsAuthorized(false);
-      }
-    };
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/v1/user/getuser`
+      );
 
-    fetchUser();
-  }, []);
+      setUser(response.data.user);
+      setIsAuthorized(true);
+    } catch (error) {
+      setIsAuthorized(false);
+    }
+  };
 
+  fetchUser();
+}, []);
   return (
     <BrowserRouter>
       <Navbar />

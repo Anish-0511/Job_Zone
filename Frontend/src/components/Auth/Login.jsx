@@ -14,29 +14,36 @@ const Login = () => {
 
   const { isAuthorized, setIsAuthorized } = useContext(Context);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/v1/user/login`,
-        { email, password, role },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+ const handleLogin = async (e) => {
+  e.preventDefault();
+  try {
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/v1/user/login`,
+      { email, password, role },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-      toast.success(data.message);
-      setEmail("");
-      setPassword("");
-      setRole("");
-      setIsAuthorized(true);
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Login failed");
-    }
-  };
+    // 🔥 STORE TOKEN
+    localStorage.setItem("token", data.token);
+
+    // 🔥 SET GLOBAL AUTH HEADER
+    axios.defaults.headers.common["Authorization"] =
+      `Bearer ${data.token}`;
+
+    toast.success(data.message);
+    setEmail("");
+    setPassword("");
+    setRole("");
+    setIsAuthorized(true);
+
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Login failed");
+  }
+};
 
   if (isAuthorized) {
     return <Navigate to={"/"} />;

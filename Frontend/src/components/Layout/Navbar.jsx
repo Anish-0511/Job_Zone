@@ -10,28 +10,23 @@ const Navbar = () => {
   const { isAuthorized, setIsAuthorized, user, setUser } = useContext(Context);
   const navigateTo = useNavigate();
 
-  // 🔥 FIXED LOGOUT FUNCTION
-  const handleLogout = async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/v1/user/logout`,
-        {
-          withCredentials: true,
-        }
-      );
+  // 🔥 NEW JWT LOGOUT FUNCTION
+  const handleLogout = () => {
+    // 1️⃣ Remove token from browser
+    localStorage.removeItem("token");
 
-      toast.success(response.data.message);
+    // 2️⃣ Remove token from axios header
+    delete axios.defaults.headers.common["Authorization"];
 
-      // Reset auth state
-      setIsAuthorized(false);
-      setUser({});
+    // 3️⃣ Reset auth state
+    setIsAuthorized(false);
+    setUser({});
 
-      // Redirect to login
-      navigateTo("/login");
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Logout failed");
-      setIsAuthorized(true);
-    }
+    // 4️⃣ Show message
+    toast.success("Logged out successfully");
+
+    // 5️⃣ Redirect to login
+    navigateTo("/login");
   };
 
   return (
