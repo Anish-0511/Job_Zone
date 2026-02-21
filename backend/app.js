@@ -15,8 +15,8 @@ config({ path: "./config/config.env" });
 
 
 app.use(cors({
-  origin: "https://job-zone-blond.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE"],
+   origin: process.env.FRONTEND_URL,
+  methods: ["GET", "POST", "PUT",  "DELETE"],
   credentials: true,
 }));
 
