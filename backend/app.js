@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 
 const app = express();
+app.set("trust proxy", 1);
 config({ path: "./config/config.env" });
 
 
