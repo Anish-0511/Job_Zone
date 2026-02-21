@@ -10,6 +10,7 @@ const JobDetails = () => {
 
   const { isAuthorized, user } = useContext(Context);
 
+  // Fetch job details
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/api/v1/job/${id}`, {
@@ -21,18 +22,20 @@ const JobDetails = () => {
       .catch(() => {
         navigateTo("/notfound");
       });
-  }, [id]);
+  }, [id, navigateTo]);
 
+  // Protect route
   useEffect(() => {
     if (!isAuthorized) {
       navigateTo("/login");
     }
-  }, [isAuthorized]);
+  }, [isAuthorized, navigateTo]);
 
   return (
     <section className="jobDetail page">
       <div className="container">
         <h3>Job Details</h3>
+
         <div className="banner">
           <p>Title: <span>{job.title}</span></p>
           <p>Category: <span>{job.category}</span></p>
@@ -41,6 +44,7 @@ const JobDetails = () => {
           <p>Location: <span>{job.location}</span></p>
           <p>Description: <span>{job.description}</span></p>
           <p>Job Posted On: <span>{job.jobPostedOn}</span></p>
+
           <p>
             Salary:
             {job.fixedSalary ? (
@@ -50,9 +54,8 @@ const JobDetails = () => {
             )}
           </p>
 
-          {user && user.role === "Employer" ? (
-            <></>
-          ) : (
+          {/* Only Job Seekers see Apply button */}
+          {user && user.role === "Employer" ? null : (
             <Link to={`/application/${job._id}`}>Apply Now</Link>
           )}
         </div>
