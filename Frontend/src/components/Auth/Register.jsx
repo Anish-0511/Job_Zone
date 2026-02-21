@@ -87,7 +87,7 @@ const Register = () => {
             <div>
               <input
                 type="email"
-                placeholder="simran@gmail.com"
+                placeholder="anish321@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -100,7 +100,7 @@ const Register = () => {
             <div>
               <input
                 type="number"
-                placeholder="12345678"
+                placeholder="9875354810"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
