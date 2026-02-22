@@ -12,8 +12,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
 
-  const { isAuthorized, setIsAuthorized } = useContext(Context);
-
+   const { isAuthorized, setIsAuthorized, setUser } = useContext(Context);
  const handleLogin = async (e) => {
   e.preventDefault();
   try {
@@ -27,10 +26,10 @@ const Login = () => {
       }
     );
 
-    // 🔥 STORE TOKEN
+    //  STORE TOKEN
     localStorage.setItem("token", data.token);
 
-    // 🔥 SET GLOBAL AUTH HEADER
+    //  SET GLOBAL AUTH HEADER
     axios.defaults.headers.common["Authorization"] =
       `Bearer ${data.token}`;
 
@@ -38,6 +37,7 @@ const Login = () => {
     setEmail("");
     setPassword("");
     setRole("");
+    setUser(data.user);
     setIsAuthorized(true);
 
   } catch (error) {
